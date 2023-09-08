@@ -1,5 +1,6 @@
 #include <X11/Xlib.h>
 #include <stdlib.h>
+#include <unistd.h>
 int main(void) {
   Display *display = XOpenDisplay(NULL);
   Window root = DefaultRootWindow(display);
@@ -31,7 +32,13 @@ int main(void) {
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("Return"))) {
       Window window = XCreateSimpleWindow(display, root, 100, 100, 400, 300, 1, BlackPixel(display, 0), WhitePixel(display, 0));
       XMapWindow(display, window);
-      windows = realloc(windows, (length + 1) * sizeof(Window));
+      pid_t pid = fork();
+      if (pid == 0) {
+        execlp("st", "st", NULL);
+      } else if (pid > 0) {
+        windows = realloc(windows, (length + 1) * sizeof(Window));
+        windows[length++] = window;
+      }
     }
   }
 }
