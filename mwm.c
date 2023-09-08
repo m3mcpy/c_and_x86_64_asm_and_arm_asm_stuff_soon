@@ -13,6 +13,7 @@ int main(void) {
   XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("K")), Mod1Mask, DefaultRootWindow(display), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("Return")), Mod1Mask, DefaultRootWindow(display), True, GrabModeAsync, GrabModeAsync);
   while (1) {
+    XNextEvent(display, &event);
     if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("Q"))) {
       free(windows);
       XCloseDisplay(display);
@@ -30,7 +31,7 @@ int main(void) {
         current = 0;
       }
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("Return"))) {
-      Window window = XCreateSimpleWindow(display, root, 100, 100, 400, 300, 1, BlackPixel(display, 0), WhitePixel(display, 0));
+      Window window = XCreateSimpleWindow(display, root, 0, 0, DisplayWidth(display, DefaultScreen(display)), DisplayHeight(display, DefaultScreen(display)), 1, BlackPixel(display, 0), WhitePixel(display, 0));
       XMapWindow(display, window);
       pid_t pid = fork();
       if (pid == 0) {
