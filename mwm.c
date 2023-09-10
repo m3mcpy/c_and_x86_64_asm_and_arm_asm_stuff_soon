@@ -12,6 +12,9 @@ int main(void) {
   XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("J")), Mod1Mask, DefaultRootWindow(display), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("K")), Mod1Mask, DefaultRootWindow(display), True, GrabModeAsync, GrabModeAsync);
   XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("Return")), Mod1Mask, DefaultRootWindow(display), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("X")), Mod1Mask, DefaultRootWindow(display), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("H")), Mod1Mask, DefaultRootWindow(display), True, GrabModeAsync, GrabModeAsync);
+  XGrabKey(display, XKeysymToKeycode(display, XStringToKeysym("S")), Mod1Mask, DefaultRootWindow(display), True, GrabModeAsync, GrabModeAsync);
   while (1) {
     XNextEvent(display, &event);
     if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("Q"))) {
@@ -40,6 +43,15 @@ int main(void) {
         windows = realloc(windows, (length + 1) * sizeof(Window));
         windows[length++] = window;
       }
+    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("X"))) {
+      for (size_t i = current; i < length; i++) {
+        windows[i] = windows[i + 1];
+      }
+      XDestroyWindow(display, windows[current]);
+    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("H"))) {
+      XUnmapWindow(display, windows[current]);
+    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("S"))) {
+      XMapWindow(display, windows[current]);
     }
   }
 }
