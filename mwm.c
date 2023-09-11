@@ -48,10 +48,13 @@ int main(void) {
         windows[i] = windows[i + 1];
       }
       XDestroyWindow(display, windows[current]);
+      length--;
+      windows = realloc(windows, (length + 1) * sizeof(Window));
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("H"))) {
       XUnmapWindow(display, windows[current]);
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("S"))) {
       XMapWindow(display, windows[current]);
     }
+    XFlush(display);
   }
 }
