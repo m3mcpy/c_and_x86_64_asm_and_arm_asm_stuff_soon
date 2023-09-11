@@ -43,13 +43,13 @@ int main(void) {
         windows = realloc(windows, (length + 1) * sizeof(Window));
         windows[length++] = window;
       }
-    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("X"))) {
+    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("X")) && length > 0) {
       for (size_t i = current; i < length; i++) {
         windows[i] = windows[i + 1];
       }
       XDestroyWindow(display, windows[current]);
       length--;
-      windows = realloc(windows, (length + 1) * sizeof(Window));
+      windows = realloc(windows, (length) * sizeof(Window));
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("H")) && length > 0) {
       XUnmapWindow(display, windows[current]);
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("S")) && length > 0) {
