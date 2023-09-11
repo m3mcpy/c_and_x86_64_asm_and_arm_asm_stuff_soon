@@ -1,4 +1,5 @@
 #include <X11/Xlib.h>
+#include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
 int main(void) {
@@ -25,10 +26,10 @@ int main(void) {
       if (current > 0) {
         current--;
       } else {
-        current = length - 1;
+        current = length;
       }
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("K")) && length > 0) {
-      if (current < length - 1) {
+      if (current < length) {
         current++;
       } else {
         current = 0;
@@ -44,11 +45,11 @@ int main(void) {
         windows[length++] = window;
       }
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("X")) && length > 0) {
+      XDestroyWindow(display, windows[current]);
+      length--;
       for (size_t i = current; i < length; i++) {
         windows[i] = windows[i + 1];
       }
-      XDestroyWindow(display, windows[current]);
-      length--;
       windows = realloc(windows, (length) * sizeof(Window));
     } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("H")) && length > 0) {
       XUnmapWindow(display, windows[current]);
