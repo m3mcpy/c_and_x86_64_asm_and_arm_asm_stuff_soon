@@ -21,14 +21,14 @@ int main(void) {
       free(windows);
       XCloseDisplay(display);
       return 1;
-    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("J"))) {
+    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("J")) && length > 0) {
       if (current > 0) {
         current--;
       } else {
-        current = length;
+        current = length - 1;
       }
-    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("K"))) {
-      if (current < length) {
+    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("K")) && length > 0) {
+      if (current < length - 1) {
         current++;
       } else {
         current = 0;
@@ -50,9 +50,9 @@ int main(void) {
       XDestroyWindow(display, windows[current]);
       length--;
       windows = realloc(windows, (length + 1) * sizeof(Window));
-    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("H"))) {
+    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("H")) && length > 0) {
       XUnmapWindow(display, windows[current]);
-    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("S"))) {
+    } else if (event.xkey.keycode == XKeysymToKeycode(display, XStringToKeysym("S")) && length > 0) {
       XMapWindow(display, windows[current]);
     }
     XFlush(display);
