@@ -18,7 +18,7 @@ int main(void) {
       } else if (pumpkin[i] == 'x') {
         printf("%s \x1b[0m", color);
       } else if (pumpkin[i] == 'z') {
-        printf("\033[43m \x1b[0m");
+        printf("\033[42m \x1b[0m");
       } else {
         printf("%c", pumpkin[i]);
       }
