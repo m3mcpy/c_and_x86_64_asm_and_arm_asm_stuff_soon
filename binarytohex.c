@@ -49,6 +49,7 @@ int main(int argc, char **argv) {
       printf("%c", hex[i]);
     }
     printf("\n");
+    free(hex);
   }
   return 0;
 }
